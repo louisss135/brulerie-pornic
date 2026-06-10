@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Brûlerie de Pornic — Cafés & Thés de Qualité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────
+   DESIGN TOKENS
+   Palette: warm ivory, deep espresso, terracotta gold
+   Type: Playfair Display (headings) + DM Sans (body)
+   Signature element: roast-level dots on product cards
+───────────────────────────────────────────────── */
+:root {
+  --ivory:        #F7F3EC;
+  --ivory-dark:   #EDE6D8;
+  --espresso:     #1C1008;
+  --brown-mid:    #3D2314;
+  --copper:       #B5600F;
+  --copper-light: #D4873A;
+  --sage:         #6B7B5E;
+  --cream:        #FBF8F3;
+  --text:         #2A1A0C;
+  --text-muted:   #7A6555;
+  --border:       #D9CEC0;
+  --success:      #4A7C5A;
+  --white:        #FFFFFF;
+
+  --r: 6px;
+  --r-lg: 12px;
+  --shadow: 0 2px 12px rgba(28,16,8,0.08);
+  --shadow-lg: 0 8px 32px rgba(28,16,8,0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--ivory);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ─── HEADER ─── */
+header {
+  background: var(--espresso);
+  color: var(--ivory);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.logo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  letter-spacing: 0.03em;
+  color: var(--copper-light);
+}
+.logo-sub {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(247,243,236,0.55);
+  margin-top: 2px;
+}
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+}
+.nav-tab {
+  background: none;
+  border: none;
+  color: rgba(247,243,236,0.65);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: var(--r);
+  transition: all 0.18s;
+  letter-spacing: 0.02em;
+}
+.nav-tab:hover { background: rgba(255,255,255,0.08); color: var(--ivory); }
+.nav-tab.active { background: var(--copper); color: var(--white); }
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(181,96,15,0.18);
+  border: 1px solid rgba(181,96,15,0.4);
+  color: var(--copper-light);
+  padding: 8px 16px;
+  border-radius: var(--r);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.cart-btn:hover { background: var(--copper); color: var(--white); border-color: var(--copper); }
+.cart-count {
+  background: var(--copper);
+  color: var(--white);
+  border-radius: 99px;
+  min-width: 20px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.cart-btn:hover .cart-count { background: var(--white); color: var(--copper); }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--espresso);
+  color: var(--ivory);
+  text-align: center;
+  padding: 56px 24px 48px;
+  border-bottom: 3px solid var(--copper);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ivory);
+}
+.hero h1 em {
+  color: var(--copper-light);
+  font-style: italic;
+}
+.hero-sub {
+  color: rgba(247,243,236,0.65);
+  font-size: 15px;
+  margin-top: 12px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-badges {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.hero-badge {
+  background: rgba(181,96,15,0.22);
+  border: 1px solid rgba(181,96,15,0.5);
+  color: var(--copper-light);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ─── LAYOUT ─── */
+.main-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ─── SECTIONS ─── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ─── FILTERS ─── */
+.filters-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 16px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.filter-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.filter-select {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 6px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  min-width: 140px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A6555' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+.filter-select:focus { outline: 2px solid var(--copper); }
+.filter-toggle-group {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+.filter-toggle {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.filter-toggle:hover { border-color: var(--copper); color: var(--copper); }
+.filter-toggle.active { background: var(--copper); border-color: var(--copper); color: var(--white); font-weight: 500; }
+.results-count {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* ─── PRODUCT GRID ─── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* ─── CAFÉ CARD ─── */
+.product-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.card-header {
+  background: var(--espresso);
+  padding: 18px 18px 14px;
+  position: relative;
+}
+.card-badges {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+.badge-bio { background: #2D5A27; color: #A8E49A; }
+.badge-spp { background: #1A3A5C; color: #94C8F0; }
+.badge-pays { background: rgba(255,255,255,0.12); color: rgba(247,243,236,0.8); }
+.badge-type { background: rgba(181,96,15,0.25); color: var(--copper-light); }
+.badge-cat { background: rgba(107,123,94,0.25); color: #A8C89A; }
+
+.card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--ivory);
+  line-height: 1.25;
+}
+.card-region {
+  font-size: 11px;
+  color: rgba(247,243,236,0.5);
+  margin-top: 3px;
+  letter-spacing: 0.08em;
+}
+.card-altitude {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  color: var(--copper-light);
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 16px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-aromas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.aroma-chip {
+  background: var(--ivory-dark);
+  color: var(--brown-mid);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+}
+
+.card-info-row {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.card-info-item span:first-child {
+  font-weight: 600;
+  color: var(--text);
+  margin-right: 3px;
+}
+
+.card-certif {
+  display: flex;
+  gap: 6px;
+}
+
+.card-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+.price-main {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--copper);
+}
+.price-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.price-kg {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+/* ─── ADD TO CART FORM ─── */
+.add-form {
+  padding: 14px 18px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.form-group label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.form-select, .form-input {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 7px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  width: 100%;
+  appearance: none;
+}
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A6555' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+.form-select:focus, .form-input:focus { outline: 2px solid var(--copper); }
+
+.btn-add {
+  background: var(--copper);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r);
+  padding: 9px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-add:hover { background: var(--brown-mid); }
+.btn-add:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+.stock-info {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.stock-ok::before { content: '●'; color: var(--success); margin-right: 4px; }
+.stock-low::before { content: '●'; color: #D97706; margin-right: 4px; }
+.stock-out::before { content: '●'; color: #DC2626; margin-right: 4px; }
+
+/* ─── THÉ CARD VARIANT ─── */
+.the-card .card-header {
+  background: var(--sage);
+}
+.the-card .card-name { font-size: 16px; }
+
+/* ─── SECTION TITLE ─── */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--espresso);
+  margin-bottom: 6px;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ─── CART DRAWER (slide-in panel) ─── */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(480px, 100vw);
+  background: var(--cream);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: -8px 0 32px rgba(0,0,0,0.2);
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-drawer-header {
+  background: var(--espresso);
+  color: var(--ivory);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-drawer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--ivory);
+}
+.cart-close {
+  background: none;
+  border: none;
+  color: var(--ivory);
+  cursor: pointer;
+  font-size: 22px;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+  padding: 4px;
+}
+.cart-close:hover { opacity: 1; }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cart-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.cart-item-info { flex: 1; }
+.cart-item-name {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.cart-item-detail {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.cart-item-price {
+  font-weight: 700;
+  color: var(--copper);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.cart-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.cart-remove:hover { color: #DC2626; }
+
+.cart-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 48px 0;
+  font-size: 14px;
+}
+.cart-empty::before {
+  content: '☕';
+  display: block;
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.cart-footer {
+  border-top: 2px solid var(--border);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cart-summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.cart-total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.cart-port-info {
+  font-size: 12px;
+  color: var(--success);
+  text-align: center;
+  padding: 6px 10px;
+  background: rgba(74,124,90,0.08);
+  border-radius: var(--r);
+  border: 1px solid rgba(74,124,90,0.2);
+}
+.cart-port-warn {
+  font-size: 12px;
+  color: #D97706;
+  text-align: center;
+  padding: 6px 10px;
+  background: rgba(217,119,6,0.08);
+  border-radius: var(--r);
+  border: 1px solid rgba(217,119,6,0.2);
+}
+
+.btn-order {
+  background: var(--espresso);
+  color: var(--ivory);
+  border: none;
+  border-radius: var(--r);
+  padding: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.btn-order:hover { background: var(--copper); }
+.btn-order:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--espresso);
+  color: var(--ivory);
+  padding: 12px 20px;
+  border-radius: var(--r);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 300;
+  transition: transform 0.25s;
+  white-space: nowrap;
+  border-left: 3px solid var(--copper);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .header-inner { gap: 8px; }
+  .logo-title { font-size: 15px; }
+  .nav-tab { padding: 6px 10px; font-size: 13px; }
+  .cart-btn span:not(.cart-count) { display: none; }
+  .product-grid { grid-template-columns: 1fr; }
+  .main-wrap { padding: 20px 16px 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-title">La Brûlerie de Pornic</span>
+      <span class="logo-sub">Torréfaction artisanale</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="showSection('cafes')">☕ Cafés</button>
+      <button class="nav-tab" onclick="showSection('thes')">🍵 Thés</button>
+    </nav>
+    <button class="cart-btn" onclick="openCart()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Mon panier</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Cafés &amp; Thés <em>d'exception</em></h1>
+  <p class="hero-sub">Sélection directe, torréfaction sur place à Pornic. Livraison Colissimo — commandez en quelques clics.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🌿 Bio &amp; SPP</span>
+    <span class="hero-badge">✈️ Expédition Colissimo</span>
+    <span class="hero-badge">☕ Port offert dès 4 kg</span>
+    <span class="hero-badge">💶 Prix TTC</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrap">
+
+  <!-- SECTION CAFÉS -->
+  <section id="section-cafes" class="section active">
+    <h2 class="section-title">Notre sélection de cafés</h2>
+    <p class="section-desc">18 origines torréfiées sur place — choisissez votre poids et votre mouture.</p>
+
+    <div class="filters-bar">
+      <div class="filter-group">
+        <span class="filter-label">Pays d'origine</span>
+        <select class="filter-select" id="filter-pays" onchange="renderCafes()">
+          <option value="">Tous les pays</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Certification</span>
+        <div class="filter-toggle-group">
+          <button class="filter-toggle" id="toggle-bio" onclick="toggleFilter('bio')">🌿 Bio</button>
+          <button class="filter-toggle" id="toggle-spp" onclick="toggleFilter('spp')">🤝 SPP</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Profil aromatique</span>
+        <select class="filter-select" id="filter-arome" onchange="renderCafes()">
+          <option value="">Tous les profils</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="results-count" id="cafes-count"></p>
+    <div class="product-grid" id="cafes-grid"></div>
+  </section>
+
+  <!-- SECTION THÉS -->
+  <section id="section-thes" class="section">
+    <h2 class="section-title">Notre sélection de thés</h2>
+    <p class="section-desc">20 thés et infusions en vrac — commandez à partir de 100 g, par tranches de 100 g.</p>
+
+    <div class="filters-bar">
+      <div class="filter-group">
+        <span class="filter-label">Catégorie</span>
+        <select class="filter-select" id="filter-cat-the" onchange="renderThes()">
+          <option value="">Toutes les catégories</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="results-count" id="thes-count"></p>
+    <div class="product-grid" id="thes-grid"></div>
+  </section>
+
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <span class="cart-drawer-title">Mon panier</span>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   CONFIGURATION
+   ⚠️  Mettez à jour SHEETS_ID avec l'ID de votre Google Sheets
+      (la partie entre /d/ et /edit dans l'URL du Sheets)
+══════════════════════════════════════════════════ */
+const CONFIG = {
+  fraisPort: 8.50,
+  seuilPortGratuit: 4000,
+  emailSandrine: 'sandrine@brulerie-pornic.fr', // ← À adapter
+  poidsCafe: [250, 500, 750, 1000],
+
+  // ─── GOOGLE SHEETS ───────────────────────────────
+  // Remplacez VOTRE_SHEETS_ID par l'ID de votre Google Sheets
+  // Laissez vide ('') pour utiliser les données intégrées (mode hors-ligne)
+  SHEETS_ID: '',
+  // Nom exact des onglets dans Google Sheets
+  SHEETS_CAFES: 'Cafés',
+  SHEETS_THES: 'Thés',
+};
+
+/* ══════════════════════════════════════════════════
+   DONNÉES CATALOGUE — FALLBACK INTÉGRÉ
+   Ces données sont utilisées si SHEETS_ID est vide
+   ou si le chargement du Sheets échoue.
+   Sandrine peut aussi mettre à jour directement ici
+   sans Google Sheets si elle préfère.
+══════════════════════════════════════════════════ */
+const CATALOGUE_FALLBACK = {"cafes":[{"Nom du café":"Le Pornic Express","Région":"Assemblage","Pays":"Colombie/Autres","Type":"De domaine","Altitude (m)":null,"Espèce":"Arabica (80%) + Robusta (20%)","Variétés":"Arabica Moka, Arabica Caturra, Arabica Maracaturra, Arabica Maracogype, Robusta","Note SCAA":null,"Prix 250g (€)":10.48,"Prix/Kg (€)":41.9,"Profil aromatique":"Ananas, Pomme, Fruits rouges, Cacao, Caramel, Amandes","Process":null,"Séchage":null,"Certification Bio":"Non","Certification SPP":"Non","Harvest":null,"Disponible":"OUI","Notes":"Assemblage signature","Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Strawberry","Région":"Tolima","Pays":"Colombie","Type":"Bio/SPP","Altitude (m)":"2000","Espèce":"Arabica","Variétés":"Caturra Rouge, Castillo, Colombia","Note SCAA":"84+","Prix 250g (€)":9.75,"Prix/Kg (€)":39.0,"Profil aromatique":"Chocolat au lait, Baie rouge, Amande grillée","Process":"Lavé et Honey","Séchage":"Serre, séchoir mécanique et solaire","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":"Mai à juillet","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Nyala","Région":"Sidama","Pays":"Éthiopie","Type":"Bio","Altitude (m)":"1850","Espèce":"Arabica","Variétés":"Moka Heirloom","Note SCAA":"84","Prix 250g (€)":9.45,"Prix/Kg (€)":37.8,"Profil aromatique":"Fruité, Miel, Végétal, Chocolat au lait, Noisette","Process":"Lavé","Séchage":"Lit africain","Certification Bio":"OUI","Certification SPP":"Non","Harvest":"Novembre à janvier","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"El Triunfo Verde","Région":"Chiapas","Pays":"Mexique","Type":"Bio/SPP","Altitude (m)":"1600","Espèce":"Arabica","Variétés":"Bourbon, Typica, Mundo Novo","Note SCAA":"84","Prix 250g (€)":10.3,"Prix/Kg (€)":41.2,"Profil aromatique":"Fève de cacao","Process":"Lavé","Séchage":"Soleil","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":"Décembre à Mars","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Kitché","Région":"Guatemala","Pays":"Guatemala","Type":"Bio/SPP","Altitude (m)":null,"Espèce":"Arabica","Variétés":null,"Note SCAA":null,"Prix 250g (€)":10.3,"Prix/Kg (€)":41.2,"Profil aromatique":null,"Process":null,"Séchage":null,"Certification Bio":"OUI","Certification SPP":"OUI","Harvest":null,"Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Capucas","Région":"Marcala","Pays":"Honduras","Type":"Bio/SPP","Altitude (m)":"1800","Espèce":"Arabica","Variétés":"Catuaí, Lempira","Note SCAA":"85","Prix 250g (€)":10.3,"Prix/Kg (€)":41.2,"Profil aromatique":"Réglisse, Cacao, Fruits secs","Process":"Honey","Séchage":"Soleil et tambour air chaud","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":"Décembre à Mars","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Pangoa","Région":"Satipo","Pays":"Pérou","Type":"Bio/SPP","Altitude (m)":"1800","Espèce":"Arabica","Variétés":"Caturra, Pache, Catuaí, Bourbon","Note SCAA":"84","Prix 250g (€)":10.3,"Prix/Kg (€)":41.2,"Profil aromatique":"Chocolat, Fruits secs, Cerise","Process":"Lavé","Séchage":"Tambour air chaud","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":"Mai à août","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"El Palomar","Région":"El Palomar","Pays":"Pérou","Type":"Bio/SPP","Altitude (m)":"1400-1900","Espèce":"Arabica","Variétés":"Typica, Bourbon, Caturra, Catimor, Catuaí","Note SCAA":"84","Prix 250g (€)":10.3,"Prix/Kg (€)":41.2,"Profil aromatique":"Légère acidité, Fruits secs, Agrumes, Rond et long en bouche","Process":"Lavé","Séchage":"Tambour air chaud","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":null,"Disponible":"OUI","Notes":"Parc naturel","Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Geisha Anaerobie","Région":"Pérou","Pays":"Pérou","Type":"Bio/SPP","Altitude (m)":null,"Espèce":"Arabica","Variétés":null,"Note SCAA":null,"Prix 250g (€)":null,"Prix/Kg (€)":58.0,"Profil aromatique":null,"Process":"Anaerobie","Séchage":null,"Certification Bio":"OUI","Certification SPP":"OUI","Harvest":null,"Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Santa Rosa","Région":"Pérou","Pays":"Pérou","Type":"Bio/SPP","Altitude (m)":null,"Espèce":"Arabica","Variétés":null,"Note SCAA":null,"Prix 250g (€)":null,"Prix/Kg (€)":49.6,"Profil aromatique":"Cerise","Process":null,"Séchage":null,"Certification Bio":"OUI","Certification SPP":"OUI","Harvest":null,"Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Corsuca","Région":"Cauca","Pays":"Colombie","Type":"Bio/SPP","Altitude (m)":"1300-1700","Espèce":"Arabica","Variétés":null,"Note SCAA":null,"Prix 250g (€)":null,"Prix/Kg (€)":44.0,"Profil aromatique":"Chocolaté, Agrumes, Miel","Process":"Agrofresterie","Séchage":null,"Certification Bio":"OUI","Certification SPP":"OUI","Harvest":null,"Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Palanda","Région":"Zamora","Pays":"Équateur","Type":"Bio/SPP","Altitude (m)":"1600","Espèce":"Arabica","Variétés":"Caturra, Pache, Catuaí","Note SCAA":"84","Prix 250g (€)":12.0,"Prix/Kg (€)":48.0,"Profil aromatique":"Chocolat, Miel, Caramel","Process":"Lavé","Séchage":"Tambour air chaud","Certification Bio":"OUI","Certification SPP":"OUI","Harvest":"Mai à août","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Golden Harrar","Région":"Harrar","Pays":"Éthiopie","Type":"De terroir","Altitude (m)":"2000","Espèce":"Arabica","Variétés":"Moka Heirloom","Note SCAA":"81","Prix 250g (€)":9.75,"Prix/Kg (€)":39.9,"Profil aromatique":"Végétal, Biscuit, Chocolat au lait","Process":"Nature","Séchage":"Lit de séchage","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Novembre à janvier","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Malabar Moussonné","Région":"Karnataka","Pays":"Inde","Type":"De terroir","Altitude (m)":"1500","Espèce":"Arabica","Variétés":"Catimor, Typica","Note SCAA":"80","Prix 250g (€)":8.45,"Prix/Kg (€)":33.8,"Profil aromatique":"Vétiver, Poivre, Réglisse","Process":"Nature","Séchage":"Moussonné","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Novembre à février","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"El Toston","Région":"Dipilto","Pays":"Nicaragua","Type":"De terroir","Altitude (m)":"1500","Espèce":"Arabica","Variétés":"Caturra Rouge, Maracogype, Maracaturra","Note SCAA":"83","Prix 250g (€)":9.75,"Prix/Kg (€)":39.0,"Profil aromatique":"Caramel, Amande, Zeste de citron","Process":"Lavé","Séchage":"Lit de séchage","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Février à mai","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"San Jorge","Région":"Ilamatepec","Pays":"Salvador","Type":"De domaine","Altitude (m)":"1340","Espèce":"Arabica","Variétés":"Bourbon, Pacas","Note SCAA":"80+","Prix 250g (€)":9.75,"Prix/Kg (€)":39.0,"Profil aromatique":"Mûre, Framboise, Chocolat noir, Sirop d'érable, Caramel","Process":"Lavé","Séchage":"Patios","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Décembre à Mars","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Bobilon","Région":"Espírito Santo","Pays":"Brésil","Type":"De domaine","Altitude (m)":"1300","Espèce":"Arabica (80%) + Robusta (20%)","Variétés":"Catuaí Rouge, Conilon","Note SCAA":"80+","Prix 250g (€)":8.45,"Prix/Kg (€)":33.8,"Profil aromatique":"Tabac, Boisé/Cuir, Céréale, Noix","Process":"Pulped nature","Séchage":"Séchoir mécanique","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Juin à septembre","Disponible":"OUI","Notes":"80/20","Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null},{"Nom du café":"Coko","Région":"Gakenke","Pays":"Rwanda","Type":"De terroir","Altitude (m)":"2000","Espèce":"Robusta","Variétés":"Nganda","Note SCAA":"80","Prix 250g (€)":8.45,"Prix/Kg (€)":33.8,"Profil aromatique":"Poivre, Miel, Fève de cacao, Noisette, Chêne","Process":"Lavé","Séchage":"Lit de séchage","Certification Bio":"Non","Certification SPP":"Non","Harvest":"Juin à septembre","Disponible":"OUI","Notes":null,"Filtre":"OUI","Piston":"OUI","Espresso":"OUI","Italienne":"OUI","Chemex":"OUI","Turc":"OUI","Aeropress":"OUI","Autre":"OUI","Grain entier":"OUI","Stock (g)":null}],"thes":[{"Nom du thé":"Sencha Fukuyu Japon","Catégorie":"Thé Vert","Origine/Base":"Japon","Composition":"Jeunes feuilles en aiguilles aplaties de thé vert sencha provenant du Japon","Prix/pot (€)":9.95,"Prix/Kg (€)":99.5,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Gunpowder Menthe","Catégorie":"Thé Vert","Origine/Base":"Chine","Composition":"Feuilles roulées en petites perles (poudre à canon) de thé vert de Chine et menthe poivrée","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Chun Mee Jasmin Congou","Catégorie":"Thé Vert","Origine/Base":"Chine","Composition":"Feuilles légèrement torsadées de thé vert chun mee (sourcil de vieillard) de Chine et fleurs de jasmin","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Pamplemousse Fraise Vanille","Catégorie":"Thé Vert","Origine/Base":"Chine","Composition":"Feuilles de thé vert sencha de Chine, écorces de citron, pétales (rose, calendula), arômes naturels (fraise, pamplemousse, vanille)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Sencha Papaya","Catégorie":"Thé Vert","Origine/Base":"Chine","Composition":"Feuilles de thé vert sencha et pointes de thé noir de Chine, morceaux de papaye, pétales de carthame, arômes naturels (fruits rouges, pamplemousse)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Bergamote Mangue","Catégorie":"Thé Vert","Origine/Base":"Chine","Composition":"Feuilles de thé vert sencha de Chine, pétales (tournesol, rose, calendula), arômes naturels (mangue, narangille, bergamote)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Pettiagalla OP Ceylan","Catégorie":"Thé Noir","Origine/Base":"Sri Lanka","Composition":"Grandes feuilles torsadées (orange pekoe) de thé noir de la région de Dimbula à Ceylan (Sri Lanka)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Breakfast Deux'O","Catégorie":"Thé Noir","Origine/Base":"Ceylan/Chine","Composition":"Très grandes feuilles de thé noir de Ceylan et de Chine","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Darjeeling Himalaya Inde","Catégorie":"Thé Noir","Origine/Base":"Inde","Composition":"Feuilles de thé noir de la région de Darjeeling en Inde","Prix/pot (€)":9.95,"Prix/Kg (€)":104.74,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Earl Grey Fleurs de Bleuets","Catégorie":"Thé Noir","Origine/Base":"Chine","Composition":"Feuilles de thé noir de Chine, fleurs de bleuets, arôme naturel de bergamote","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Renigrum","Catégorie":"Thé Noir","Origine/Base":"Chine","Composition":"Feuilles de thé noir de Chine, morceaux (fraise, framboise, groseille, cerise), arômes naturels (framboise, fraise, groseille, cerise)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Caramel Beurre Salé","Catégorie":"Thé Noir","Origine/Base":"Chine","Composition":"Feuilles de thé noir de Chine, morceaux de caramel, arômes naturels (caramel, crème, beurre, vanille)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Chataigne Violette","Catégorie":"Thé Noir","Origine/Base":"Chine","Composition":"Feuilles de thé vert et de thé noir de Chine, pétales de mauve, arômes naturels (châtaigne, violette)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Fraise Litchi Rose","Catégorie":"Thé Noir","Origine/Base":"Chine","Composition":"Feuilles de thé noir de Chine, cœurs roses en sucre, arômes naturels (fraise des bois, litchi, rose)","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Cranberries","Catégorie":"Thé Blanc","Origine/Base":"Chine","Composition":"Feuilles de thé blanc de Chine, morceaux de canneberge, pétales de rose, arômes naturels (pêche, fruits rouges, fraise, baie de sureau)","Prix/pot (€)":9.95,"Prix/Kg (€)":124.38,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Oolong Ti Kuan Yin","Catégorie":"Thé Bleu-Vert","Origine/Base":"Chine","Composition":"Feuilles de thé bleu-vert oolong (déesse en fer de la Miséricorde) de Chine","Prix/pot (€)":6.5,"Prix/Kg (€)":68.42,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Ananas / Coco","Catégorie":"Rooibos","Origine/Base":"Afrique du Sud","Composition":"Feuilles de rooibos d'Afrique du Sud, morceaux d'ananas, flocons de noix de coco, pétales (tournesol, maïs), arôme naturel de noix de coco","Prix/pot (€)":7.5,"Prix/Kg (€)":78.95,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Vanille / Poire","Catégorie":"Rooibos","Origine/Base":"Afrique du Sud","Composition":"Feuilles de rooibos d'Afrique du Sud, feuilles de mûrier, poivre rose, clou de girofle, cannelle, cardamone, pétales de tournesol, morceaux de poire, arômes naturels (orange, pomme, poire, vanille)","Prix/pot (€)":7.5,"Prix/Kg (€)":78.95,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Rouge Russe","Catégorie":"Rooibos","Origine/Base":"Afrique du Sud","Composition":"Feuilles de rooibos d'Afrique du Sud, écorces (orange, pamplemousse), pétales (carthame, souci), arômes naturels (orange, pamplemousse, bergamote)","Prix/pot (€)":7.5,"Prix/Kg (€)":78.95,"Disponible":"OUI","Notes":null,"Stock (g)":null},{"Nom du thé":"Rouge Fructus","Catégorie":"Rooibos","Origine/Base":"Afrique du Sud","Composition":"Feuilles de rooibos d'Afrique du Sud, hibiscus, écorces d'orange, pétales (souci, rose rouge), morceaux (fraise, framboise, groseille), arômes naturels (orange, pêche, fruits rouges, cassis)","Prix/pot (€)":7.5,"Prix/Kg (€)":78.95,"Disponible":"OUI","Notes":null,"Stock (g)":null}]};
+
+/* ══════════════════════════════════════════════════
+   CHARGEMENT DEPUIS GOOGLE SHEETS
+══════════════════════════════════════════════════ */
+let CATALOGUE = CATALOGUE_FALLBACK;
+
+async function loadFromSheets() {
+  if (!CONFIG.SHEETS_ID) return;
+
+  const toJson = (sheetName) =>
+    `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+
+  try {
+    showLoadingBanner(true);
+    const [resCafes, resThes] = await Promise.all([
+      fetch(toJson(CONFIG.SHEETS_CAFES)),
+      fetch(toJson(CONFIG.SHEETS_THES)),
+    ]);
+
+    const parseSheetsJson = async (res) => {
+      const text = await res.text();
+      const json = JSON.parse(text.replace(/^[^(]*\(|\);?$/g, ''));
+      const cols = json.table.cols.map(c => c.label);
+      return json.table.rows
+        .filter(row => row && row.c && row.c.some(cell => cell && cell.v != null))
+        .map(row => {
+          const obj = {};
+          row.c.forEach((cell, i) => { obj[cols[i]] = cell ? cell.v : null; });
+          return obj;
+        });
+    };
+
+    const cafes = await parseSheetsJson(resCafes);
+    const thes  = await parseSheetsJson(resThes);
+    CATALOGUE = { cafes, thes };
+    showLoadingBanner(false);
+    initFilters();
+    renderCafes();
+    renderThes();
+  } catch (err) {
+    console.warn('Impossible de charger le Google Sheets, utilisation des données intégrées.', err);
+    showLoadingBanner(false);
+  }
+}
+
+function showLoadingBanner(show) {
+  let banner = document.getElementById('sheets-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'sheets-banner';
+    banner.style.cssText = 'position:fixed;top:64px;left:0;right:0;background:var(--copper);color:#fff;text-align:center;padding:8px;font-size:13px;z-index:99;transition:opacity .3s';
+    document.body.appendChild(banner);
+  }
+  if (show) {
+    banner.textContent = '⏳ Chargement du catalogue en cours…';
+    banner.style.opacity = '1';
+    banner.style.pointerEvents = 'all';
+  } else {
+    banner.style.opacity = '0';
+    banner.style.pointerEvents = 'none';
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════ */
+let cart = [];
+let filters = { bio: false, spp: false };
+
+const MOUTURES = ['Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier'];
+
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+function fmt(price) {
+  return price.toFixed(2).replace('.', ',') + ' €';
+}
+
+function calcPriceCafe(cafe, poids) {
+  // poids in grams, prix/kg * poids/1000
+  return (cafe['Prix/Kg (€)'] * poids / 1000);
+}
+
+function calcPriceThe(the, poids) {
+  return (the['Prix/Kg (€)'] * poids / 1000);
+}
+
+function totalPoidsCart() {
+  return cart.reduce((s, item) => s + item.poids, 0);
+}
+
+function totalPrixCart() {
+  return cart.reduce((s, item) => s + item.prix, 0);
+}
+
+function getMoutures(cafe) {
+  return MOUTURES.filter(m => cafe[m] === 'OUI');
+}
+
+function getStockLabel(stock) {
+  if (stock === null || stock === undefined) return null;
+  if (stock <= 0) return 'out';
+  if (stock <= 500) return 'low';
+  return 'ok';
+}
+
+/* ══════════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════════ */
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.textContent.includes(name === 'cafes' ? 'Cafés' : 'Thés')) t.classList.add('active');
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   INIT FILTERS
+══════════════════════════════════════════════════ */
+function initFilters() {
+  // Pays
+  const pays = [...new Set(CATALOGUE.cafes.filter(c => c.Disponible === 'OUI').map(c => c.Pays))].sort();
+  const selPays = document.getElementById('filter-pays');
+  pays.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    selPays.appendChild(o);
+  });
+
+  // Arômes (extract individual words/phrases from profil aromatique)
+  const allAromes = new Set();
+  CATALOGUE.cafes.forEach(c => {
+    if (c['Profil aromatique']) {
+      c['Profil aromatique'].split(',').forEach(a => {
+        const t = a.trim();
+        if (t) allAromes.add(t);
+      });
+    }
+  });
+  const selArome = document.getElementById('filter-arome');
+  [...allAromes].sort().forEach(a => {
+    const o = document.createElement('option');
+    o.value = a; o.textContent = a;
+    selArome.appendChild(o);
+  });
+
+  // Catégories thés
+  const cats = [...new Set(CATALOGUE.thes.map(t => t.Catégorie))].sort();
+  const selCat = document.getElementById('filter-cat-the');
+  cats.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    selCat.appendChild(o);
+  });
+}
+
+function toggleFilter(type) {
+  filters[type] = !filters[type];
+  document.getElementById('toggle-' + type).classList.toggle('active', filters[type]);
+  renderCafes();
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER CAFÉS
+══════════════════════════════════════════════════ */
+function renderCafes() {
+  const pays = document.getElementById('filter-pays').value;
+  const arome = document.getElementById('filter-arome').value;
+
+  let list = CATALOGUE.cafes.filter(c => c.Disponible === 'OUI');
+  if (pays) list = list.filter(c => c.Pays === pays);
+  if (filters.bio) list = list.filter(c => c['Certification Bio'] === 'OUI');
+  if (filters.spp) list = list.filter(c => c['Certification SPP'] === 'OUI');
+  if (arome) list = list.filter(c => c['Profil aromatique'] && c['Profil aromatique'].includes(arome));
+
+  document.getElementById('cafes-count').textContent = `${list.length} café${list.length > 1 ? 's' : ''} affiché${list.length > 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('cafes-grid');
+  grid.innerHTML = '';
+
+  if (list.length === 0) {
+    grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;padding:32px 0;text-align:center">Aucun café ne correspond à ces filtres.</p>';
+    return;
+  }
+
+  list.forEach((cafe, idx) => {
+    const moutures = getMoutures(cafe);
+    const stockStatus = getStockLabel(cafe['Stock (g)']);
+    const isOut = stockStatus === 'out';
+
+    const card = document.createElement('div');
+    card.className = 'product-card';
+
+    // HEADER
+    let badges = '';
+    if (cafe['Certification Bio'] === 'OUI') badges += '<span class="badge badge-bio">🌿 Bio</span>';
+    if (cafe['Certification SPP'] === 'OUI') badges += '<span class="badge badge-spp">🤝 SPP</span>';
+    badges += `<span class="badge badge-pays">${cafe.Pays}</span>`;
+    if (cafe.Type) badges += `<span class="badge badge-type">${cafe.Type}</span>`;
+
+    const alt = cafe['Altitude (m)'] ? `<span class="card-altitude">⛰ ${cafe['Altitude (m)']} m</span>` : '';
+    const region = cafe.Région && cafe.Région !== 'Assemblage' ? `<div class="card-region">${cafe.Région}</div>` : '';
+
+    // AROMAS
+    let aromasHtml = '';
+    if (cafe['Profil aromatique']) {
+      const chips = cafe['Profil aromatique'].split(',').map(a =>
+        `<span class="aroma-chip">${a.trim()}</span>`
+      ).join('');
+      aromasHtml = `<div class="card-aromas">${chips}</div>`;
+    }
+
+    // INFO ROW
+    let infos = [];
+    if (cafe['Note SCAA']) infos.push(`<span class="card-info-item"><span>SCAA</span>${cafe['Note SCAA']}</span>`);
+    if (cafe.Process) infos.push(`<span class="card-info-item"><span>Process</span>${cafe.Process}</span>`);
+    if (cafe.Espèce) infos.push(`<span class="card-info-item"><span>Espèce</span>${cafe.Espèce}</span>`);
+    if (cafe.Harvest) infos.push(`<span class="card-info-item"><span>Récolte</span>${cafe.Harvest}</span>`);
+
+    // STOCK
+    let stockHtml = '';
+    if (stockStatus === 'out') stockHtml = `<p class="stock-info"><span class="stock-out"></span>Rupture de stock</p>`;
+    else if (stockStatus === 'low') stockHtml = `<p class="stock-info"><span class="stock-low"></span>Stock limité (${cafe['Stock (g)']} g)</p>`;
+    else if (stockStatus === 'ok') stockHtml = `<p class="stock-info"><span class="stock-ok"></span>En stock</p>`;
+
+    // PRICE
+    const prix250 = cafe['Prix 250g (€)'];
+    const prixKg = cafe['Prix/Kg (€)'];
+    const priceHtml = `
+      <div class="card-price-row">
+        ${prix250 ? `<span class="price-main">${fmt(prix250)}</span><span class="price-label">/ 250 g</span>` : ''}
+        <span class="price-kg">${fmt(prixKg)} / kg</span>
+      </div>`;
+
+    // MOUTURE SELECT
+    const moutureSel = moutures.length > 0 ? `
+      <div class="form-group">
+        <label>Mouture</label>
+        <select class="form-select" id="mouture-${idx}">
+          ${moutures.map(m => `<option value="${m}">${m}</option>`).join('')}
+        </select>
+      </div>` : '';
+
+    // POIDS SELECT
+    const maxPoids = cafe['Stock (g)'] ? cafe['Stock (g)'] : 999999;
+    const poidsOptions = CONFIG.poidsCafe
+      .filter(p => p <= maxPoids)
+      .map(p => {
+        const price = calcPriceCafe(cafe, p);
+        return `<option value="${p}">${p} g — ${fmt(price)}</option>`;
+      }).join('');
+
+    const addForm = !isOut ? `
+      <div class="add-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Poids</label>
+            <select class="form-select" id="poids-cafe-${idx}" onchange="updateCafePrice(${idx})">
+              ${poidsOptions}
+            </select>
+          </div>
+          ${moutureSel}
+        </div>
+        ${stockHtml}
+        <button class="btn-add" onclick="addCafeToCart(${idx})">Ajouter au panier</button>
+      </div>` : `
+      <div class="add-form">
+        ${stockHtml}
+        <button class="btn-add" disabled>Rupture de stock</button>
+      </div>`;
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-badges">${badges}</div>
+        <div class="card-name">${cafe['Nom du café']}</div>
+        ${region}
+        ${alt}
+      </div>
+      <div class="card-body">
+        ${aromasHtml}
+        ${infos.length ? `<div class="card-info-row">${infos.join('')}</div>` : ''}
+        ${cafe.Notes ? `<p style="font-size:12px;color:var(--text-muted);font-style:italic">${cafe.Notes}</p>` : ''}
+        ${priceHtml}
+      </div>
+      ${addForm}`;
+
+    grid.appendChild(card);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER THÉS
+══════════════════════════════════════════════════ */
+function renderThes() {
+  const cat = document.getElementById('filter-cat-the').value;
+  let list = CATALOGUE.thes.filter(t => t.Disponible === 'OUI');
+  if (cat) list = list.filter(t => t.Catégorie === cat);
+
+  document.getElementById('thes-count').textContent = `${list.length} thé${list.length > 1 ? 's' : ''} affiché${list.length > 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('thes-grid');
+  grid.innerHTML = '';
+
+  if (list.length === 0) {
+    grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;padding:32px 0;text-align:center">Aucun thé ne correspond à ce filtre.</p>';
+    return;
+  }
+
+  list.forEach((the, idx) => {
+    const stockStatus = getStockLabel(the['Stock (g)']);
+    const isOut = stockStatus === 'out';
+    const prixKg = the['Prix/Kg (€)'];
+
+    // Category badge color
+    const catColors = {
+      'Thé Vert': '#2D5A27',
+      'Thé Noir': '#2A1A0C',
+      'Thé Blanc': '#B5A08A',
+      'Thé Bleu-Vert': '#1A3A5C',
+      'Rooibos': '#8B2200',
+    };
+    const catColor = catColors[the.Catégorie] || '#3D2314';
+
+    const card = document.createElement('div');
+    card.className = 'product-card the-card';
+
+    let stockHtml = '';
+    if (stockStatus === 'out') stockHtml = `<p class="stock-info"><span class="stock-out"></span>Rupture de stock</p>`;
+    else if (stockStatus === 'low') stockHtml = `<p class="stock-info"><span class="stock-low"></span>Stock limité (${the['Stock (g)']} g)</p>`;
+
+    // Max poids for input
+    const maxG = the['Stock (g)'] ? the['Stock (g)'] : 9900;
+
+    const addForm = !isOut ? `
+      <div class="add-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Poids (g)</label>
+            <input type="number" class="form-input" id="poids-the-${idx}"
+              min="100" max="${maxG}" step="100" value="100"
+              oninput="updateThePrice(${idx}, ${prixKg})">
+          </div>
+          <div class="form-group" style="max-width:90px">
+            <label>Prix</label>
+            <input type="text" class="form-input" id="prix-the-${idx}" readonly
+              value="${fmt(prixKg * 0.1)}" style="background:var(--ivory-dark);color:var(--copper);font-weight:600">
+          </div>
+        </div>
+        ${stockHtml}
+        <button class="btn-add" onclick="addTheToCart(${idx})">Ajouter au panier</button>
+      </div>` : `
+      <div class="add-form">
+        ${stockHtml}
+        <button class="btn-add" disabled>Rupture de stock</button>
+      </div>`;
+
+    card.innerHTML = `
+      <div class="card-header" style="background:${catColor}">
+        <div class="card-badges">
+          <span class="badge badge-cat">${the.Catégorie}</span>
+          <span class="badge badge-pays">${the['Origine/Base']}</span>
+        </div>
+        <div class="card-name">${the['Nom du thé']}</div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.5">${the.Composition || ''}</p>
+        <div class="card-price-row">
+          <span class="price-main">${fmt(prixKg * 0.1)}</span>
+          <span class="price-label">/ 100 g</span>
+          <span class="price-kg">${fmt(prixKg)} / kg</span>
+        </div>
+      </div>
+      ${addForm}`;
+
+    grid.appendChild(card);
+  });
+}
+
+function updateThePrice(idx, prixKg) {
+  const poidsInput = document.getElementById('poids-the-' + idx);
+  const prixInput = document.getElementById('prix-the-' + idx);
+  const poids = parseInt(poidsInput.value) || 100;
+  const prix = prixKg * poids / 1000;
+  prixInput.value = fmt(prix);
+}
+
+/* ══════════════════════════════════════════════════
+   CART — ADD ITEMS
+══════════════════════════════════════════════════ */
+function addCafeToCart(idx) {
+  const list = CATALOGUE.cafes.filter(c => c.Disponible === 'OUI');
+  const cafe = list[idx];
+  if (!cafe) return;
+
+  const poisSel = document.getElementById('poids-cafe-' + idx);
+  const moutureSel = document.getElementById('mouture-' + idx);
+  const poids = parseInt(poisSel.value);
+  const mouture = moutureSel ? moutureSel.value : 'Grain entier';
+  const prix = calcPriceCafe(cafe, poids);
+
+  // Stock check
+  if (cafe['Stock (g)'] !== null && cafe['Stock (g)'] !== undefined) {
+    const deja = cart.filter(i => i.nom === cafe['Nom du café']).reduce((s, i) => s + i.poids, 0);
+    if (deja + poids > cafe['Stock (g)']) {
+      showToast(`Stock insuffisant pour ${cafe['Nom du café']}`);
+      return;
+    }
+  }
+
+  cart.push({
+    type: 'cafe',
+    nom: cafe['Nom du café'],
+    poids,
+    mouture,
+    prix,
+    detail: `${poids} g — ${mouture}`,
+  });
+
+  updateCartUI();
+  showToast(`${cafe['Nom du café']} ajouté au panier ✓`);
+}
+
+function addTheToCart(idx) {
+  const list = CATALOGUE.thes.filter(t => t.Disponible === 'OUI');
+  const the = list[idx];
+  if (!the) return;
+
+  const poidsInput = document.getElementById('poids-the-' + idx);
+  const poids = parseInt(poidsInput.value);
+
+  if (!poids || poids < 100 || poids % 100 !== 0) {
+    showToast('Le poids doit être un multiple de 100 g');
+    return;
+  }
+
+  if (the['Stock (g)'] !== null && the['Stock (g)'] !== undefined) {
+    const deja = cart.filter(i => i.nom === the['Nom du thé']).reduce((s, i) => s + i.poids, 0);
+    if (deja + poids > the['Stock (g)']) {
+      showToast(`Stock insuffisant pour ${the['Nom du thé']}`);
+      return;
+    }
+  }
+
+  const prix = calcPriceThe(the, poids);
+  cart.push({
+    type: 'the',
+    nom: the['Nom du thé'],
+    poids,
+    mouture: null,
+    prix,
+    detail: `${poids} g`,
+  });
+
+  updateCartUI();
+  showToast(`${the['Nom du thé']} ajouté au panier ✓`);
+}
+
+/* ══════════════════════════════════════════════════
+   CART UI
+══════════════════════════════════════════════════ */
+function updateCartUI() {
+  const total = cart.length;
+  document.getElementById('cart-count').textContent = total;
+
+  const itemsEl = document.getElementById('cart-items');
+  const footerEl = document.getElementById('cart-footer');
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty">Votre panier est vide.<br>Parcourez notre catalogue ci-dessous.</div>';
+    footerEl.innerHTML = '';
+    return;
+  }
+
+  itemsEl.innerHTML = cart.map((item, i) => `
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.nom}</div>
+        <div class="cart-item-detail">${item.detail}${item.mouture ? '' : ''}</div>
+      </div>
+      <span class="cart-item-price">${fmt(item.prix)}</span>
+      <button class="cart-remove" onclick="removeFromCart(${i})" title="Retirer">✕</button>
+    </div>
+  `).join('');
+
+  const poidsTotal = totalPoidsCart();
+  const prixTotal = totalPrixCart();
+  const portGratuit = poidsTotal >= CONFIG.seuilPortGratuit;
+  const frais = portGratuit ? 0 : CONFIG.fraisPort;
+  const totalFinal = prixTotal + frais;
+
+  const portMsg = portGratuit
+    ? `<div class="cart-port-info">🎉 Port offert (commande ≥ 4 kg)</div>`
+    : `<div class="cart-port-warn">📦 Frais de port : ${fmt(CONFIG.fraisPort)} (port offert dès 4 kg — il vous manque ${((CONFIG.seuilPortGratuit - poidsTotal) / 1000).toFixed(2).replace('.',',')} kg)</div>`;
+
+  footerEl.innerHTML = `
+    <div class="cart-summary-line">
+      <span>Poids total</span>
+      <span>${(poidsTotal / 1000).toFixed(3).replace('.',',')} kg</span>
+    </div>
+    <div class="cart-summary-line">
+      <span>Sous-total produits</span>
+      <span>${fmt(prixTotal)}</span>
+    </div>
+    ${portMsg}
+    <div class="cart-total-line">
+      <span>Total TTC</span>
+      <span>${fmt(totalFinal)}</span>
+    </div>
+    <button class="btn-order" onclick="sendOrder()">✉️ Envoyer ma commande à Sandrine</button>
+    <p style="font-size:11px;color:var(--text-muted);text-align:center">Votre client mail va s'ouvrir avec un récapitulatif pré-rempli.</p>
+  `;
+}
+
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  updateCartUI();
+}
+
+/* ══════════════════════════════════════════════════
+   CART DRAWER
+══════════════════════════════════════════════════ */
+function openCart() {
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ══════════════════════════════════════════════════
+   ORDER → MAILTO
+══════════════════════════════════════════════════ */
+function sendOrder() {
+  if (cart.length === 0) return;
+
+  const poidsTotal = totalPoidsCart();
+  const prixTotal = totalPrixCart();
+  const portGratuit = poidsTotal >= CONFIG.seuilPortGratuit;
+  const frais = portGratuit ? 0 : CONFIG.fraisPort;
+  const totalFinal = prixTotal + frais;
+
+  // Group lines
+  const cafesLines = cart.filter(i => i.type === 'cafe');
+  const thesLines = cart.filter(i => i.type === 'the');
+
+  let body = `Bonjour Sandrine,\n\nJe souhaite passer la commande suivante :\n\n`;
+
+  if (cafesLines.length) {
+    body += `--- CAFÉS ---\n`;
+    cafesLines.forEach(item => {
+      body += `• ${item.nom} — ${item.poids} g — Mouture : ${item.mouture} — ${fmt(item.prix)}\n`;
+    });
+    body += '\n';
+  }
+
+  if (thesLines.length) {
+    body += `--- THÉS ---\n`;
+    thesLines.forEach(item => {
+      body += `• ${item.nom} — ${item.poids} g — ${fmt(item.prix)}\n`;
+    });
+    body += '\n';
+  }
+
+  body += `---\n`;
+  body += `Sous-total produits : ${fmt(prixTotal)}\n`;
+  body += portGratuit
+    ? `Frais de port : Offerts ✓ (commande ≥ 4 kg)\n`
+    : `Frais de port : ${fmt(frais)} (Colissimo)\n`;
+  body += `TOTAL TTC : ${fmt(totalFinal)}\n\n`;
+  body += `Poids total : ${(poidsTotal / 1000).toFixed(3)} kg\n\n`;
+  body += `Merci de me confirmer la disponibilité et le délai d'expédition.\n\nCordialement,`;
+
+  const subject = `Commande Brûlerie de Pornic — ${new Date().toLocaleDateString('fr-FR')}`;
+  const mailto = `mailto:${CONFIG.emailSandrine}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailto;
+}
+
+/* ══════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ══════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  initFilters();
+  renderCafes();
+  renderThes();
+  updateCartUI();
+  // Charge les données depuis Google Sheets si SHEETS_ID est défini
+  loadFromSheets();
+});
+</script>
+</body>
+</html>
