@@ -1436,19 +1436,7 @@ header::after {
 }
 header { position: relative; }
 
-/* Séparateurs section : fine ligne avec grains de café en watermark */
-.section-title::before {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 24px;
-  margin-bottom: 4px;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='24'%3E%3Cellipse cx='20' cy='12' rx='7' ry='10' fill='%231C1008' transform='rotate(-15 20 12)'/%3E%3Cline x1='20' y1='2' x2='20' y2='22' stroke='%231C1008' stroke-width='1' transform='rotate(-15 20 12)'/%3E%3Cellipse cx='60' cy='12' rx='6' ry='8.5' fill='%231C1008' transform='rotate(20 60 12)'/%3E%3Cline x1='60' y1='3.5' x2='60' y2='20.5' stroke='%231C1008' stroke-width='0.9' transform='rotate(20 60 12)'/%3E%3Cellipse cx='100' cy='12' rx='7' ry='10' fill='%231C1008' transform='rotate(-10 100 12)'/%3E%3Cline x1='100' y1='2' x2='100' y2='22' stroke='%231C1008' stroke-width='1' transform='rotate(-10 100 12)'/%3E%3Cellipse cx='140' cy='12' rx='5.5' ry='7.5' fill='%231C1008' transform='rotate(25 140 12)'/%3E%3Cline x1='140' y1='4.5' x2='140' y2='19.5' stroke='%231C1008' stroke-width='0.8' transform='rotate(25 140 12)'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-size: 160px 24px;
-  background-position: 0 center;
-}
+/* Séparateurs section : supprimés */
 
 /* Filigrane grains de café sur le footer (arrière-plan foncé) */
 .site-footer::before {
@@ -1946,19 +1934,50 @@ async function loadFromSheets() {
     const parseSheetsJson = async (res) => {
       const text = await res.text();
       const json = JSON.parse(text.replace(/^[^(]*\(|\);?$/g, ''));
-      const cols = json.table.cols.map(c => c.label);
+      // Utilise label si non vide, sinon id (ex: "A", "B"…) comme fallback
+      const cols = json.table.cols.map(c => (c.label && c.label.trim()) ? c.label.trim() : c.id);
       return json.table.rows
         .filter(row => row && row.c && row.c.some(cell => cell && cell.v != null))
         .map(row => {
           const obj = {};
-          row.c.forEach((cell, i) => { obj[cols[i]] = cell ? cell.v : null; });
+          row.c.forEach((cell, i) => {
+            const key = cols[i];
+            if (key) obj[key] = cell ? cell.v : null;
+          });
           return obj;
         });
     };
 
-    const cafes = await parseSheetsJson(resCafes);
-    const thes  = await parseSheetsJson(resThes);
-    CATALOGUE = { cafes, thes };
+    let cafes = await parseSheetsJson(resCafes);
+    let thes  = await parseSheetsJson(resThes);
+
+    // Normalisation : Google Sheets peut renvoyer des booléens TRUE/FALSE
+    // au lieu des chaînes 'OUI'/'NON'. On normalise ici.
+    const normalizeOui = (val) => {
+      if (val === true || val === 'TRUE' || val === 'OUI' || val === 'Oui' || val === 'oui') return 'OUI';
+      if (val === false || val === 'FALSE' || val === 'NON' || val === 'Non' || val === 'non') return 'NON';
+      return val;
+    };
+    const BOOL_COLS_CAFE = ['Disponible','Certification Bio','Certification SPP','Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier'];
+    const BOOL_COLS_THE  = ['Disponible'];
+    cafes = cafes.map(c => {
+      const r = {...c};
+      BOOL_COLS_CAFE.forEach(k => { if (k in r) r[k] = normalizeOui(r[k]); });
+      return r;
+    });
+    thes = thes.map(t => {
+      const r = {...t};
+      BOOL_COLS_THE.forEach(k => { if (k in r) r[k] = normalizeOui(r[k]); });
+      return r;
+    });
+
+    // Sécurité : si le Sheets ne renvoie aucun café valide, garder le fallback
+    const cafesValides = cafes.filter(c => c['Nom du café'] && c['Prix/Kg (€)']);
+    const thesValides  = thes.filter(t => t['Nom du thé']  && t['Prix/Kg (€)']);
+    CATALOGUE = {
+      cafes: cafesValides.length > 0 ? cafes : CATALOGUE_FALLBACK.cafes,
+      thes:  thesValides.length  > 0 ? thes  : CATALOGUE_FALLBACK.thes,
+    };
     showLoadingBanner(false);
     initFilters();
     renderCafes();
