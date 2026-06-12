@@ -876,6 +876,57 @@ header {
 /* ─── TOAST (désactivé) ─── */
 .toast { display: none; }
 
+/* ─── FEEDBACK AJOUT PANIER ─── */
+@keyframes cartBump {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.32); }
+  60%  { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+@keyframes addedPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(181,96,15,0.7); }
+  60%  { box-shadow: 0 0 0 10px rgba(181,96,15,0); }
+  100% { box-shadow: 0 0 0 0 rgba(181,96,15,0); }
+}
+@keyframes cardFlash {
+  0%   { box-shadow: var(--shadow), 0 0 0 0   rgba(181,96,15,0.55); }
+  35%  { box-shadow: var(--shadow), 0 0 0 6px rgba(181,96,15,0.28); }
+  100% { box-shadow: var(--shadow), 0 0 0 0   rgba(181,96,15,0); }
+}
+.cart-amount.bumping {
+  animation: cartBump 0.42s cubic-bezier(0.34,1.56,0.64,1);
+}
+.cart-btn.added {
+  animation: addedPulse 0.55s ease-out;
+}
+.product-card.card-added {
+  animation: cardFlash 0.65s ease-out;
+}
+
+/* Badge "✓ Ajouté" flottant sur le bouton ajouter */
+.btn-add {
+  position: relative;
+  overflow: hidden;
+}
+.btn-add .added-checkmark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--success);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  border-radius: inherit;
+}
+.btn-add.show-check .added-checkmark {
+  opacity: 1;
+}
+
 /* ─── SCAA BADGE (en haut à droite du header) ─── */
 .card-scaa-badge {
   position: absolute;
@@ -1280,10 +1331,10 @@ header {
 
 /* ─── SHIPPING INFO BANNER ─── */
 .shipping-info-banner {
-  background: var(--cream);
-  border-top: 1px solid var(--border);
-  border-bottom: 3px solid var(--copper);
-  padding: 14px 24px;
+  background: var(--brown-mid);
+  border-top: none;
+  border-bottom: none;
+  padding: 18px 24px;
 }
 .shipping-info-inner {
   max-width: 1240px;
@@ -1291,14 +1342,14 @@ header {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.6;
-  color: var(--text-muted);
+  color: rgba(247,243,236,0.72);
 }
-.shipping-info-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-.shipping-info-text strong { color: var(--brown-mid); }
+.shipping-info-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; opacity: 0.8; }
+.shipping-info-text strong { color: var(--copper-light); }
 @media (max-width: 640px) {
-  .shipping-info-inner { font-size: 12.5px; }
+  .shipping-info-inner { font-size: 12px; }
 }
 
 /* ─── FOOTER ─── */
@@ -1306,7 +1357,7 @@ header {
   background: var(--espresso);
   color: rgba(247,243,236,0.7);
   padding: 48px 24px 0;
-  margin-top: 48px;
+  margin-top: 0;
   border-top: 3px solid var(--copper);
 }
 .footer-inner {
@@ -1434,7 +1485,7 @@ header::after {
   background-size: 120px 60px;
   mix-blend-mode: screen;
 }
-header { position: relative; }
+/* header position: relative supprimé — le sticky du header est déjà défini plus haut */
 
 /* Séparateurs section : supprimés */
 
@@ -1598,19 +1649,6 @@ header { position: relative; }
   </div>
 </div>
 
-<!-- SHIPPING INFO BANNER -->
-<div class="shipping-info-banner">
-  <div class="shipping-info-inner">
-    <span class="shipping-info-icon">📦</span>
-    <div class="shipping-info-text">
-      <strong>Livraison &amp; frais de port</strong>
-      Les frais de port en France sont de <strong>15 € T.T.C.</strong>, ils sont offerts à partir de <strong>140 € d'achat</strong> ou <strong>4 kg de café</strong>.
-      Une fois le virement validé, ou à réception du chèque, nous envoyons votre commande par la poste, via <strong>Colissimo</strong> (en France).
-      Si votre boîte aux lettres est aux normes de La Poste, le colis sera déposé directement dans celle-ci.
-      Pour un envoi à l'étranger, nous vous communiquerons les frais de port, une fois le poids du colis défini.
-    </div>
-  </div>
-</div>
 
 <!-- MAIN CONTENT -->
 <div class="main-wrap">
@@ -1721,6 +1759,20 @@ header { position: relative; }
     <button class="filters-drawer-close" onclick="closeFiltersDrawer()">✕</button>
   </div>
   <div class="filters-drawer-content" id="filters-drawer-content"></div>
+</div>
+
+<!-- SHIPPING INFO BANNER -->
+<div class="shipping-info-banner">
+  <div class="shipping-info-inner">
+    <span class="shipping-info-icon">📦</span>
+    <div class="shipping-info-text">
+      <strong>Livraison &amp; frais de port</strong>
+      Les frais de port en France sont de <strong>15 € T.T.C.</strong>, ils sont offerts à partir de <strong>140 € d'achat</strong> ou <strong>4 kg de café</strong>.
+      Une fois le virement validé, ou à réception du chèque, nous envoyons votre commande par la poste, via <strong>Colissimo</strong> (en France).
+      Si votre boîte aux lettres est aux normes de La Poste, le colis sera déposé directement dans celle-ci.
+      Pour un envoi à l'étranger, nous vous communiquerons les frais de port, une fois le poids du colis défini.
+    </div>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -1921,70 +1973,102 @@ function matchesSearch(cafe, query) {
 async function loadFromSheets() {
   if (!CONFIG.SHEETS_ID) return;
 
-  const toJson = (sheetName) =>
-    `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  // ── Méthode 1 : export CSV public (plus fiable que gviz)
+  // Le Sheets DOIT être partagé en "Tout le monde peut consulter"
+  // URL : https://docs.google.com/spreadsheets/d/ID/gviz/tq?tqx=out:csv&sheet=NOM
+  const toCsv = (sheetName) =>
+    `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+
+  // ── Parser CSV minimal (gère les guillemets et virgules dans les champs)
+  function parseCsv(text) {
+    const lines = [];
+    let cur = '', inQ = false, fields = [];
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === '"') {
+        if (inQ && text[i+1] === '"') { cur += '"'; i++; }
+        else inQ = !inQ;
+      } else if (ch === ',' && !inQ) {
+        fields.push(cur); cur = '';
+      } else if ((ch === '\n' || ch === '\r') && !inQ) {
+        fields.push(cur); cur = '';
+        if (fields.some(f => f.trim())) lines.push(fields);
+        fields = [];
+        if (ch === '\r' && text[i+1] === '\n') i++;
+      } else {
+        cur += ch;
+      }
+    }
+    if (cur || fields.length) { fields.push(cur); if (fields.some(f => f.trim())) lines.push(fields); }
+    return lines;
+  }
+
+  // ── Convertit les lignes CSV en tableau d'objets avec les bons types
+  function csvToObjects(lines) {
+    if (lines.length < 2) return [];
+    const headers = lines[0].map(h => h.trim());
+    return lines.slice(1).map(row => {
+      const obj = {};
+      headers.forEach((h, i) => {
+        let val = (row[i] || '').trim();
+        // Nombres
+        if (val !== '' && !isNaN(val.replace(',', '.'))) {
+          obj[h] = parseFloat(val.replace(',', '.'));
+        } else {
+          obj[h] = val === '' ? null : val;
+        }
+      });
+      return obj;
+    }).filter(obj => Object.values(obj).some(v => v !== null && v !== ''));
+  }
+
+  // ── Normalise OUI/NON (Google Sheets exporte TRUE/FALSE en CSV)
+  function normalizeOui(val) {
+    if (val === true  || val === 'TRUE'  || val === 'OUI' || val === 'Oui' || val === 'oui') return 'OUI';
+    if (val === false || val === 'FALSE' || val === 'NON' || val === 'Non' || val === 'non') return 'NON';
+    return val;
+  }
+  const BOOL_COLS_CAFE = ['Disponible','Certification Bio','Certification SPP',
+    'Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier'];
+  const BOOL_COLS_THE  = ['Disponible'];
 
   try {
     showLoadingBanner(true);
+
     const [resCafes, resThes] = await Promise.all([
-      fetch(toJson(CONFIG.SHEETS_CAFES)),
-      fetch(toJson(CONFIG.SHEETS_THES)),
+      fetch(toCsv(CONFIG.SHEETS_CAFES)),
+      fetch(toCsv(CONFIG.SHEETS_THES)),
     ]);
 
-    const parseSheetsJson = async (res) => {
-      const text = await res.text();
-      const json = JSON.parse(text.replace(/^[^(]*\(|\);?$/g, ''));
-      // Utilise label si non vide, sinon id (ex: "A", "B"…) comme fallback
-      const cols = json.table.cols.map(c => (c.label && c.label.trim()) ? c.label.trim() : c.id);
-      return json.table.rows
-        .filter(row => row && row.c && row.c.some(cell => cell && cell.v != null))
-        .map(row => {
-          const obj = {};
-          row.c.forEach((cell, i) => {
-            const key = cols[i];
-            if (key) obj[key] = cell ? cell.v : null;
-          });
-          return obj;
-        });
-    };
+    if (!resCafes.ok || !resThes.ok) throw new Error(`HTTP ${resCafes.status} / ${resThes.status}`);
 
-    let cafes = await parseSheetsJson(resCafes);
-    let thes  = await parseSheetsJson(resThes);
+    const [textCafes, textThes] = await Promise.all([resCafes.text(), resThes.text()]);
 
-    // Normalisation : Google Sheets peut renvoyer des booléens TRUE/FALSE
-    // au lieu des chaînes 'OUI'/'NON'. On normalise ici.
-    const normalizeOui = (val) => {
-      if (val === true || val === 'TRUE' || val === 'OUI' || val === 'Oui' || val === 'oui') return 'OUI';
-      if (val === false || val === 'FALSE' || val === 'NON' || val === 'Non' || val === 'non') return 'NON';
-      return val;
-    };
-    const BOOL_COLS_CAFE = ['Disponible','Certification Bio','Certification SPP','Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier'];
-    const BOOL_COLS_THE  = ['Disponible'];
-    cafes = cafes.map(c => {
-      const r = {...c};
-      BOOL_COLS_CAFE.forEach(k => { if (k in r) r[k] = normalizeOui(r[k]); });
-      return r;
-    });
-    thes = thes.map(t => {
-      const r = {...t};
-      BOOL_COLS_THE.forEach(k => { if (k in r) r[k] = normalizeOui(r[k]); });
-      return r;
-    });
+    let cafes = csvToObjects(parseCsv(textCafes));
+    let thes  = csvToObjects(parseCsv(textThes));
 
-    // Sécurité : si le Sheets ne renvoie aucun café valide, garder le fallback
+    cafes = cafes.map(c => { const r={...c}; BOOL_COLS_CAFE.forEach(k => { if(k in r) r[k]=normalizeOui(r[k]); }); return r; });
+    thes  = thes.map(t => { const r={...t}; BOOL_COLS_THE.forEach(k  => { if(k in r) r[k]=normalizeOui(r[k]); }); return r; });
+
     const cafesValides = cafes.filter(c => c['Nom du café'] && c['Prix/Kg (€)']);
-    const thesValides  = thes.filter(t => t['Nom du thé']  && t['Prix/Kg (€)']);
+    const thesValides  = thes.filter(t  => t['Nom du thé']  && t['Prix/Kg (€)']);
+
+    console.log(`[Sheets] ${cafesValides.length} cafés / ${thesValides.length} thés chargés`);
+
     CATALOGUE = {
       cafes: cafesValides.length > 0 ? cafes : CATALOGUE_FALLBACK.cafes,
       thes:  thesValides.length  > 0 ? thes  : CATALOGUE_FALLBACK.thes,
     };
+
     showLoadingBanner(false);
     initFilters();
     renderCafes();
     renderThes();
+
   } catch (err) {
-    console.warn('Impossible de charger le Google Sheets, utilisation des données intégrées.', err);
+    console.warn('[Sheets] Chargement impossible, fallback données intégrées :', err);
     showLoadingBanner(false);
+    // Le fallback est déjà actif (CATALOGUE = CATALOGUE_FALLBACK par défaut)
   }
 }
 
@@ -2167,9 +2251,10 @@ function renderCafes() {
 
     const card = document.createElement('div');
     card.className = 'product-card card-enter';
-    card.style.animationDelay = `${Math.min(idx, 12) * 45}ms`;
-
-    // ── BADGES : éviter la duplication Bio/SPP vs Type ──
+    const enterDelay = Math.min(idx, 12) * 45;
+    card.style.animationDelay = `${enterDelay}ms`;
+    // Retire card-enter après que l'animation soit terminée (délai + durée 450ms + marge)
+    setTimeout(() => card.classList.remove('card-enter'), enterDelay + 500);
     // Le champ Type contient "Bio/SPP", "Bio", "De terroir" etc.
     // On affiche Bio/SPP depuis les certifications, pas depuis Type
     let badges = '';
@@ -2266,7 +2351,7 @@ function renderCafes() {
           ${moutureSel}
         </div>
         ${stockHtml}
-        <button class="btn-add" onclick="addCafeToCart(${idx})">Ajouter au panier</button>
+        <button class="btn-add" id="btn-add-cafe-${idx}" onclick="addCafeToCart(${idx})">Ajouter au panier<span class="added-checkmark">✓ Ajouté</span></button>
       </div>` : `
       <div class="add-form">
         ${stockHtml}
@@ -2390,9 +2475,9 @@ function renderThes() {
 
     const card = document.createElement('div');
     card.className = 'product-card the-card card-enter';
-    card.style.animationDelay = `${Math.min(idx, 12) * 45}ms`;
-
-    let stockHtml = '';
+    const enterDelay = Math.min(idx, 12) * 45;
+    card.style.animationDelay = `${enterDelay}ms`;
+    setTimeout(() => card.classList.remove('card-enter'), enterDelay + 500);
     if (stockStatus === 'out') stockHtml = `<p class="stock-info"><span class="stock-out"></span>Rupture de stock</p>`;
     else if (stockStatus === 'low') stockHtml = `<p class="stock-info"><span class="stock-low"></span>Stock limité (${the['Stock (g)']} g)</p>`;
 
@@ -2415,7 +2500,7 @@ function renderThes() {
           </div>
         </div>
         ${stockHtml}
-        <button class="btn-add" onclick="addTheToCart(${idx})">Ajouter au panier</button>
+        <button class="btn-add" id="btn-add-the-${idx}" onclick="addTheToCart(${idx})">Ajouter au panier<span class="added-checkmark">✓ Ajouté</span></button>
       </div>` : `
       <div class="add-form">
         ${stockHtml}
@@ -2486,6 +2571,7 @@ function addCafeToCart(idx) {
 
   updateCartUI();
   showToast(`${cafe['Nom du café']} ajouté au panier ✓`);
+  triggerAddedFeedback(idx, 'cafe');
 }
 
 function addTheToCart(idx) {
@@ -2521,6 +2607,7 @@ function addTheToCart(idx) {
 
   updateCartUI();
   showToast(`${the['Nom du thé']} ajouté au panier ✓`);
+  triggerAddedFeedback(idx, 'the');
 }
 
 /* ══════════════════════════════════════════════════
@@ -2854,6 +2941,45 @@ function sendOrder() {
 
   // Save
   doc.save(`commande-bruleriedepornic-${new Date().toISOString().slice(0,10)}.pdf`);
+}
+
+/* ══════════════════════════════════════════════════
+   FEEDBACK AJOUT PANIER
+══════════════════════════════════════════════════ */
+function triggerAddedFeedback(idx, type) {
+  // 1. Bump + pulse sur le bouton panier dans le header
+  const cartBtn    = document.querySelector('.cart-btn');
+  const cartAmount = document.getElementById('cart-amount');
+  if (cartBtn) {
+    cartBtn.classList.remove('added');
+    void cartBtn.offsetWidth; // reflow pour relancer l'animation
+    cartBtn.classList.add('added');
+    cartBtn.addEventListener('animationend', () => cartBtn.classList.remove('added'), { once: true });
+  }
+  if (cartAmount) {
+    cartAmount.classList.remove('bumping');
+    void cartAmount.offsetWidth;
+    cartAmount.classList.add('bumping');
+    cartAmount.addEventListener('animationend', () => cartAmount.classList.remove('bumping'), { once: true });
+  }
+
+  // 2. Flash vert sur le bouton "Ajouter" de la carte
+  const btnId = type === 'cafe' ? `btn-add-cafe-${idx}` : `btn-add-the-${idx}`;
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.classList.add('show-check');
+    setTimeout(() => btn.classList.remove('show-check'), 900);
+  }
+
+  // 3. Glow flash sur la carte — seulement si card-enter est déjà terminée
+  const card = btn ? btn.closest('.product-card') : null;
+  if (card && !card.classList.contains('card-enter')) {
+    card.classList.remove('card-added');
+    setTimeout(() => {
+      card.classList.add('card-added');
+      card.addEventListener('animationend', () => card.classList.remove('card-added'), { once: true });
+    }, 10);
+  }
 }
 
 /* ══════════════════════════════════════════════════
