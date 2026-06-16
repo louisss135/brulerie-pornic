@@ -1924,8 +1924,15 @@ async function loadFromSheets() {
   // ── Méthode 1 : export CSV public (plus fiable que gviz)
   // Le Sheets DOIT être partagé en "Tout le monde peut consulter"
   // URL : https://docs.google.com/spreadsheets/d/ID/gviz/tq?tqx=out:csv&sheet=NOM
+  // ⚠️ &headers=1 force gviz à traiter EXACTEMENT 1 ligne comme en-tête.
+  // Sans ce paramètre, gviz "devine" le nombre de lignes d'en-tête à partir
+  // du contenu : si la 1ère ligne de données contient plusieurs cellules
+  // vides (ce qui était le cas pour "Le Pornic Express" dans l'onglet Cafés),
+  // gviz peut deviner 2 lignes d'en-tête et fusionner l'en-tête réel avec les
+  // valeurs de la 1ère ligne de données dans un seul intitulé de colonne
+  // (ex: "Nom du café Le Pornic Express"). C'est exactement le bug observé.
   const toCsv = (sheetName) =>
-    `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+    `https://docs.google.com/spreadsheets/d/${CONFIG.SHEETS_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(sheetName)}`;
 
   // ── Parser CSV minimal (gère les guillemets et virgules dans les champs)
   function parseCsv(text) {
@@ -1953,60 +1960,16 @@ async function loadFromSheets() {
 
   // ── Convertit les lignes CSV en tableau d'objets avec les bons types
   function csvToObjects(lines) {
-    if (lines.length < 1) return [];
+    if (lines.length < 2) return [];
     // Supprime le BOM UTF-8 (\uFEFF) que Google Sheets injecte en début de fichier
-    const rawHeaders = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
-
-    // Détecte si les en-têtes contiennent déjà les valeurs (ex: "Nom du café Le Pornic Express")
-    // Cela arrive quand le Sheets n'a qu'une seule ligne (en-têtes et données fusionnés)
-    // Dans ce cas, on extrait les en-têtes en utilisant la liste des colonnes attendues
-    const KNOWN_CAFE_HEADERS = [
-      'Nom du café','Région','Pays','Type','Altitude (m)','Espèce','Variétés','Note SCAA',
-      'Prix 250g (€)','Prix/Kg (€)','Profil aromatique','Process','Séchage',
-      'Certification Bio','Certification SPP','Harvest','Disponible','Notes',
-      'Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier','Stock (g)'
-    ];
-    const KNOWN_THE_HEADERS = [
-      'Nom du thé','Catégorie','Origine/Base','Composition','Prix/pot (€)','Prix/Kg (€)',
-      'Poids min commande','Disponible','Notes','Stock (g)'
-    ];
-
-    // Vérifie si les "en-têtes" contiennent déjà des données (format sans ligne d'en-tête séparée)
-    const firstHeaderHasData = rawHeaders.length > 0 && (
-      rawHeaders[0].includes(' ') &&
-      !KNOWN_CAFE_HEADERS.includes(rawHeaders[0]) &&
-      !KNOWN_THE_HEADERS.includes(rawHeaders[0])
-    );
-
-    let headers, dataLines;
-    if (firstHeaderHasData) {
-      // Détermine si c'est un Sheets cafés ou thés
-      const knownHeaders = rawHeaders[0].startsWith('Nom du café') ? KNOWN_CAFE_HEADERS : KNOWN_THE_HEADERS;
-      headers = knownHeaders;
-
-      // Reconstruit les lignes de données en extrayant les valeurs des "en-têtes"
-      // Chaque rawHeader = "Nom de colonne valeur" → on extrait la valeur
-      const firstRow = rawHeaders.map((cell, i) => {
-        const colName = knownHeaders[i] || '';
-        if (colName && cell.startsWith(colName)) {
-          return cell.slice(colName.length).trim();
-        }
-        return cell.trim();
-      });
-
-      // Les lignes suivantes sont les vraies lignes de données
-      dataLines = [firstRow, ...lines.slice(1)];
-    } else {
-      if (lines.length < 2) return [];
-      headers = rawHeaders;
-      dataLines = lines.slice(1);
-    }
-
-    return dataLines.map(row => {
+    // et qui corromprait silencieusement le premier en-tête de colonne
+    const headers = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
+    return lines.slice(1).map(row => {
       const obj = {};
       headers.forEach((h, i) => {
         let val = (row[i] || '').trim();
         // Nombres : nettoie les symboles monétaires, espaces insécables et unités
+        // avant de tenter la conversion (ex: "68,42 €", "1 500", "9.75€")
         const cleaned = val.replace(/[€$\s\u00A0]/g, '').replace(',', '.');
         if (val !== '' && cleaned !== '' && !isNaN(cleaned) && cleaned !== '.') {
           obj[h] = parseFloat(cleaned);
@@ -2049,18 +2012,8 @@ async function loadFromSheets() {
     const cafesValides = cafes.filter(c => c['Nom du café'] && c['Prix/Kg (€)']);
     const thesValides  = thes.filter(t  => t['Nom du thé']  && t['Prix/Kg (€)']);
 
-    // Diagnostic : affiche les colonnes reçues depuis le Sheets pour aider au débogage
-    if (cafes.length > 0) {
-      console.log('[Sheets] Colonnes cafés reçues :', Object.keys(cafes[0]));
-    }
-    if (thes.length > 0) {
-      console.log('[Sheets] Colonnes thés reçues :', Object.keys(thes[0]));
-    }
-    // Diagnostic brut : affiche les 300 premiers caractères du CSV cafés
-    console.log('[Sheets] Début CSV cafés brut :', textCafes.slice(0, 300).replace(/\r/g,'\\r').replace(/\n/g,'\\n'));
-    console.log(`[Sheets] ${cafesValides.length} cafés valides / ${thesValides.length} thés valides chargés`);
+    console.log(`[Sheets] ${cafesValides.length} cafés / ${thesValides.length} thés chargés`);
 
-    // CORRECTION : on utilise cafesValides/thesValides (données propres) et non cafes/thes bruts
     CATALOGUE = {
       cafes: cafesValides.length > 0 ? cafesValides : CATALOGUE_FALLBACK.cafes,
       thes:  thesValides.length  > 0 ? thesValides  : CATALOGUE_FALLBACK.thes,
