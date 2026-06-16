@@ -2012,6 +2012,8 @@ async function loadFromSheets() {
     if (thes.length > 0) {
       console.log('[Sheets] Colonnes thés reçues :', Object.keys(thes[0]));
     }
+    // Diagnostic brut : affiche les 300 premiers caractères du CSV cafés
+    console.log('[Sheets] Début CSV cafés brut :', textCafes.slice(0, 300).replace(/\r/g,'\\r').replace(/\n/g,'\\n'));
     console.log(`[Sheets] ${cafesValides.length} cafés valides / ${thesValides.length} thés valides chargés`);
 
     // CORRECTION : on utilise cafesValides/thesValides (données propres) et non cafes/thes bruts
