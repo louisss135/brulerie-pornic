@@ -1953,16 +1953,60 @@ async function loadFromSheets() {
 
   // ── Convertit les lignes CSV en tableau d'objets avec les bons types
   function csvToObjects(lines) {
-    if (lines.length < 2) return [];
+    if (lines.length < 1) return [];
     // Supprime le BOM UTF-8 (\uFEFF) que Google Sheets injecte en début de fichier
-    // et qui corromprait silencieusement le premier en-tête de colonne
-    const headers = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
-    return lines.slice(1).map(row => {
+    const rawHeaders = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
+
+    // Détecte si les en-têtes contiennent déjà les valeurs (ex: "Nom du café Le Pornic Express")
+    // Cela arrive quand le Sheets n'a qu'une seule ligne (en-têtes et données fusionnés)
+    // Dans ce cas, on extrait les en-têtes en utilisant la liste des colonnes attendues
+    const KNOWN_CAFE_HEADERS = [
+      'Nom du café','Région','Pays','Type','Altitude (m)','Espèce','Variétés','Note SCAA',
+      'Prix 250g (€)','Prix/Kg (€)','Profil aromatique','Process','Séchage',
+      'Certification Bio','Certification SPP','Harvest','Disponible','Notes',
+      'Filtre','Piston','Espresso','Italienne','Chemex','Turc','Aeropress','Autre','Grain entier','Stock (g)'
+    ];
+    const KNOWN_THE_HEADERS = [
+      'Nom du thé','Catégorie','Origine/Base','Composition','Prix/pot (€)','Prix/Kg (€)',
+      'Poids min commande','Disponible','Notes','Stock (g)'
+    ];
+
+    // Vérifie si les "en-têtes" contiennent déjà des données (format sans ligne d'en-tête séparée)
+    const firstHeaderHasData = rawHeaders.length > 0 && (
+      rawHeaders[0].includes(' ') &&
+      !KNOWN_CAFE_HEADERS.includes(rawHeaders[0]) &&
+      !KNOWN_THE_HEADERS.includes(rawHeaders[0])
+    );
+
+    let headers, dataLines;
+    if (firstHeaderHasData) {
+      // Détermine si c'est un Sheets cafés ou thés
+      const knownHeaders = rawHeaders[0].startsWith('Nom du café') ? KNOWN_CAFE_HEADERS : KNOWN_THE_HEADERS;
+      headers = knownHeaders;
+
+      // Reconstruit les lignes de données en extrayant les valeurs des "en-têtes"
+      // Chaque rawHeader = "Nom de colonne valeur" → on extrait la valeur
+      const firstRow = rawHeaders.map((cell, i) => {
+        const colName = knownHeaders[i] || '';
+        if (colName && cell.startsWith(colName)) {
+          return cell.slice(colName.length).trim();
+        }
+        return cell.trim();
+      });
+
+      // Les lignes suivantes sont les vraies lignes de données
+      dataLines = [firstRow, ...lines.slice(1)];
+    } else {
+      if (lines.length < 2) return [];
+      headers = rawHeaders;
+      dataLines = lines.slice(1);
+    }
+
+    return dataLines.map(row => {
       const obj = {};
       headers.forEach((h, i) => {
         let val = (row[i] || '').trim();
         // Nombres : nettoie les symboles monétaires, espaces insécables et unités
-        // avant de tenter la conversion (ex: "68,42 €", "1 500", "9.75€")
         const cleaned = val.replace(/[€$\s\u00A0]/g, '').replace(',', '.');
         if (val !== '' && cleaned !== '' && !isNaN(cleaned) && cleaned !== '.') {
           obj[h] = parseFloat(cleaned);
