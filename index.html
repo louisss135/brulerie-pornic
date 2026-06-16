@@ -2005,11 +2005,19 @@ async function loadFromSheets() {
     const cafesValides = cafes.filter(c => c['Nom du café'] && c['Prix/Kg (€)']);
     const thesValides  = thes.filter(t  => t['Nom du thé']  && t['Prix/Kg (€)']);
 
-    console.log(`[Sheets] ${cafesValides.length} cafés / ${thesValides.length} thés chargés`);
+    // Diagnostic : affiche les colonnes reçues depuis le Sheets pour aider au débogage
+    if (cafes.length > 0) {
+      console.log('[Sheets] Colonnes cafés reçues :', Object.keys(cafes[0]));
+    }
+    if (thes.length > 0) {
+      console.log('[Sheets] Colonnes thés reçues :', Object.keys(thes[0]));
+    }
+    console.log(`[Sheets] ${cafesValides.length} cafés valides / ${thesValides.length} thés valides chargés`);
 
+    // CORRECTION : on utilise cafesValides/thesValides (données propres) et non cafes/thes bruts
     CATALOGUE = {
-      cafes: cafesValides.length > 0 ? cafes : CATALOGUE_FALLBACK.cafes,
-      thes:  thesValides.length  > 0 ? thes  : CATALOGUE_FALLBACK.thes,
+      cafes: cafesValides.length > 0 ? cafesValides : CATALOGUE_FALLBACK.cafes,
+      thes:  thesValides.length  > 0 ? thesValides  : CATALOGUE_FALLBACK.thes,
     };
 
     showLoadingBanner(false);
