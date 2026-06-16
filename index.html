@@ -104,37 +104,6 @@ header {
 .nav-tab:hover { background: rgba(255,255,255,0.08); color: var(--ivory); }
 .nav-tab.active { background: var(--copper); color: var(--white); }
 
-.cart-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(181,96,15,0.18);
-  border: 1px solid rgba(181,96,15,0.4);
-  color: var(--copper-light);
-  padding: 8px 16px;
-  border-radius: var(--r);
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.18s;
-  white-space: nowrap;
-}
-.cart-btn:hover { background: var(--copper); color: var(--white); border-color: var(--copper); }
-.cart-count {
-  background: var(--copper);
-  color: var(--white);
-  border-radius: 99px;
-  min-width: 20px;
-  height: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-}
-.cart-btn:hover .cart-count { background: var(--white); color: var(--copper); }
 
 /* ─── CART BUTTON (ÉTAPE 4) - MINIMAL ─── */
 .cart-btn {
@@ -1530,77 +1499,56 @@ header::after {
 }
 
 /* Icônes SVG inline par méthode — affichées via background sur data-method */
+/* Propriétés communes à toutes les icônes mouture */
+.mouture-icon[data-method] {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 /* ── Filtre ── */
 .mouture-icon[data-method="Filtre"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4h18l-7 9v7l-4-2V13L3 4z'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Piston ── */
 .mouture-icon[data-method="Piston"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='10' width='12' height='10' rx='1'/%3E%3Crect x='8' y='7' width='8' height='3' rx='0.5'/%3E%3Cline x1='12' y1='3' x2='12' y2='7'/%3E%3Cline x1='9' y1='3' x2='15' y2='3'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Espresso ── */
 .mouture-icon[data-method="Espresso"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 20 Q12 17 17 20'/%3E%3Cpath d='M9 16 Q12 13.5 15 16'/%3E%3Crect x='9' y='6' width='6' height='7' rx='1'/%3E%3Cline x1='12' y1='3' x2='12' y2='6'/%3E%3Cpath d='M15 9 q3 0 3 2.5 t-3 2.5'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Italienne ── */
 .mouture-icon[data-method="Italienne"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20h8l1-8H7L8 20z'/%3E%3Cpath d='M7 12 Q12 8 17 12'/%3E%3Cpath d='M9 8 Q12 5 15 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='5'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Chemex ── */
 .mouture-icon[data-method="Chemex"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 4 L7 12 Q6 20 12 20 Q18 20 17 12 L16 4'/%3E%3Cline x1='7' y1='10' x2='17' y2='10'/%3E%3Cline x1='9' y1='4' x2='15' y2='4'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Turc ── */
 .mouture-icon[data-method="Turc"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 Q8 19 12 19 Q16 19 17 17 L17.5 10 Q12 7 6.5 10 Z'/%3E%3Cline x1='17.2' y1='13' x2='20' y2='13'/%3E%3Cpath d='M6 9 Q8 6 12 6 Q16 6 18 9'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Aeropress ── */
 .mouture-icon[data-method="Aeropress"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8' y='4' width='8' height='14' rx='1'/%3E%3Crect x='10' y='2' width='4' height='4'/%3E%3Cline x1='8' y1='14' x2='16' y2='14'/%3E%3Cline x1='12' y1='18' x2='12' y2='21'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Grain entier ── */
 .mouture-icon[data-method="Grain entier"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='12' rx='6' ry='8.5' transform='rotate(-20 12 12)'/%3E%3Cline x1='12' y1='3.5' x2='12' y2='20.5' stroke-width='1' transform='rotate(-20 12 12)'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* ── Autre ── */
 .mouture-icon[data-method="Autre"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A6555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cline x1='12' y1='8' x2='12' y2='13'/%3E%3Ccircle cx='12' cy='16' r='0.6' fill='%237A6555'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 </style>
 </head>
@@ -2105,14 +2053,14 @@ function fmt(price) {
   return price.toFixed(2).replace('.', ',') + ' €';
 }
 
-function calcPriceCafe(cafe, poids) {
-  // poids in grams, prix/kg * poids/1000
-  return (cafe['Prix/Kg (€)'] * poids / 1000);
+/* calcPrice : calcule le prix TTC pour n'importe quel produit (café ou thé)
+   poids en grammes, prixKg en €/kg → résultat en € */
+function calcPrice(produit, poids) {
+  return produit['Prix/Kg (€)'] * poids / 1000;
 }
-
-function calcPriceThe(the, poids) {
-  return (the['Prix/Kg (€)'] * poids / 1000);
-}
+// Alias maintenus pour la lisibilité du code appelant
+function calcPriceCafe(cafe, poids) { return calcPrice(cafe, poids); }
+function calcPriceThe(the, poids)   { return calcPrice(the, poids); }
 
 function totalPoidsCart() {
   return cart.reduce((s, item) => s + item.poids, 0);
@@ -2120,6 +2068,16 @@ function totalPoidsCart() {
 
 function totalPrixCart() {
   return cart.reduce((s, item) => s + item.prix, 0);
+}
+
+/* calcCartTotals : retourne en une passe poids, prix, portGratuit, frais, totalFinal */
+function calcCartTotals() {
+  const poidsTotal = totalPoidsCart();
+  const prixTotal  = totalPrixCart();
+  const portGratuit = poidsTotal >= CONFIG.seuilPortGratuit || prixTotal >= CONFIG.seuilPortGratuitEuros;
+  const frais       = portGratuit ? 0 : CONFIG.fraisPort;
+  const totalFinal  = prixTotal + frais;
+  return { poidsTotal, prixTotal, portGratuit, frais, totalFinal };
 }
 
 function getMoutures(cafe) {
@@ -2139,9 +2097,9 @@ function getStockLabel(stock) {
 function showSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + name).classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const label = name === 'cafes' ? 'Cafés' : 'Thés';
   document.querySelectorAll('.nav-tab').forEach(t => {
-    if (t.textContent.includes(name === 'cafes' ? 'Cafés' : 'Thés')) t.classList.add('active');
+    t.classList.toggle('active', t.textContent.includes(label));
   });
 }
 
@@ -2478,6 +2436,7 @@ function renderThes() {
     const enterDelay = Math.min(idx, 12) * 45;
     card.style.animationDelay = `${enterDelay}ms`;
     setTimeout(() => card.classList.remove('card-enter'), enterDelay + 500);
+    let stockHtml = '';
     if (stockStatus === 'out') stockHtml = `<p class="stock-info"><span class="stock-out"></span>Rupture de stock</p>`;
     else if (stockStatus === 'low') stockHtml = `<p class="stock-info"><span class="stock-low"></span>Stock limité (${the['Stock (g)']} g)</p>`;
 
@@ -2540,6 +2499,20 @@ function updateThePrice(idx, prixKg) {
 /* ══════════════════════════════════════════════════
    CART — ADD ITEMS
 ══════════════════════════════════════════════════ */
+
+/* checkStock : vérifie que le stock disponible est suffisant.
+   Retourne false et affiche un toast si stock dépassé. */
+function checkStock(produit, nomProduit, poids) {
+  const stock = produit['Stock (g)'];
+  if (stock === null || stock === undefined) return true;
+  const deja = cart.filter(i => i.nom === nomProduit).reduce((s, i) => s + i.poids, 0);
+  if (deja + poids > stock) {
+    showToast(`Stock insuffisant pour ${nomProduit}`);
+    return false;
+  }
+  return true;
+}
+
 function addCafeToCart(idx) {
   const list = CATALOGUE.cafes.filter(c => c.Disponible === 'OUI');
   const cafe = list[idx];
@@ -2551,14 +2524,7 @@ function addCafeToCart(idx) {
   const mouture = moutureSel ? moutureSel.value : 'Grain entier';
   const prix = calcPriceCafe(cafe, poids);
 
-  // Stock check
-  if (cafe['Stock (g)'] !== null && cafe['Stock (g)'] !== undefined) {
-    const deja = cart.filter(i => i.nom === cafe['Nom du café']).reduce((s, i) => s + i.poids, 0);
-    if (deja + poids > cafe['Stock (g)']) {
-      showToast(`Stock insuffisant pour ${cafe['Nom du café']}`);
-      return;
-    }
-  }
+  if (!checkStock(cafe, cafe['Nom du café'], poids)) return;
 
   cart.push({
     type: 'cafe',
@@ -2587,13 +2553,7 @@ function addTheToCart(idx) {
     return;
   }
 
-  if (the['Stock (g)'] !== null && the['Stock (g)'] !== undefined) {
-    const deja = cart.filter(i => i.nom === the['Nom du thé']).reduce((s, i) => s + i.poids, 0);
-    if (deja + poids > the['Stock (g)']) {
-      showToast(`Stock insuffisant pour ${the['Nom du thé']}`);
-      return;
-    }
-  }
+  if (!checkStock(the, the['Nom du thé'], poids)) return;
 
   const prix = calcPriceThe(the, poids);
   cart.push({
@@ -2635,11 +2595,7 @@ function updateCartUI() {
     </div>
   `).join('');
 
-  const poidsTotal = totalPoidsCart();
-  const prixTotal = totalPrixCart();
-  const portGratuit = poidsTotal >= CONFIG.seuilPortGratuit || prixTotal >= CONFIG.seuilPortGratuitEuros;
-  const frais = portGratuit ? 0 : CONFIG.fraisPort;
-  const totalFinal = prixTotal + frais;
+  const { poidsTotal, prixTotal, portGratuit, frais, totalFinal } = calcCartTotals();
 
   const portMsg = portGratuit
     ? `<div class="cart-port-info">✓ Frais de port pris en charge (commande ≥ 4 kg ou ≥ 140 €)</div>`
@@ -2749,15 +2705,20 @@ function closeFiltersDrawer() {
 /* ══════════════════════════════════════════════════
    ORDER → PDF
 ══════════════════════════════════════════════════ */
+// Constantes couleurs PDF — définies une seule fois au niveau module
+const PDF_COLORS = {
+  copper:   [181, 96, 15],
+  espresso: [28, 16, 8],
+  ivory:    [247, 243, 236],
+  muted:    [122, 101, 85],
+};
+
 function sendOrder() {
   if (cart.length === 0) return;
 
-  const poidsTotal = totalPoidsCart();
-  const prixTotal = totalPrixCart();
-  const portGratuit = poidsTotal >= CONFIG.seuilPortGratuit || prixTotal >= CONFIG.seuilPortGratuitEuros;
-  const frais = portGratuit ? 0 : CONFIG.fraisPort;
-  const totalFinal = prixTotal + frais;
+  const { poidsTotal, prixTotal, portGratuit, frais, totalFinal } = calcCartTotals();
 
+  const { copper, espresso, ivory, muted } = PDF_COLORS;
   const cafesLines = cart.filter(i => i.type === 'cafe');
   const thesLines  = cart.filter(i => i.type === 'the');
   const dateStr    = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
@@ -2770,11 +2731,6 @@ function sendOrder() {
   const marginL = 18;
   const marginR = W - 18;
   let y = 20;
-
-  const copper  = [181, 96, 15];
-  const espresso = [28, 16, 8];
-  const ivory   = [247, 243, 236];
-  const muted   = [122, 101, 85];
 
   // Header band
   doc.setFillColor(...espresso);
@@ -3006,9 +2962,6 @@ window.addEventListener('DOMContentLoaded', () => {
   loadFromSheets();
 });
 </script>
-</body>
-</html>
-
 <!-- Script Étape 2 : icônes mouture dynamiques -->
 <script>
 /* ══════════════════════════════════════════════════
@@ -3045,3 +2998,5 @@ document.addEventListener('DOMContentLoaded', function() {
   wrapMoutureSelects();
 });
 </script>
+</body>
+</html>
