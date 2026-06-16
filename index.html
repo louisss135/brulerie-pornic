@@ -1954,14 +1954,18 @@ async function loadFromSheets() {
   // ── Convertit les lignes CSV en tableau d'objets avec les bons types
   function csvToObjects(lines) {
     if (lines.length < 2) return [];
-    const headers = lines[0].map(h => h.trim());
+    // Supprime le BOM UTF-8 (\uFEFF) que Google Sheets injecte en début de fichier
+    // et qui corromprait silencieusement le premier en-tête de colonne
+    const headers = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
     return lines.slice(1).map(row => {
       const obj = {};
       headers.forEach((h, i) => {
         let val = (row[i] || '').trim();
-        // Nombres
-        if (val !== '' && !isNaN(val.replace(',', '.'))) {
-          obj[h] = parseFloat(val.replace(',', '.'));
+        // Nombres : nettoie les symboles monétaires, espaces insécables et unités
+        // avant de tenter la conversion (ex: "68,42 €", "1 500", "9.75€")
+        const cleaned = val.replace(/[€$\s\u00A0]/g, '').replace(',', '.');
+        if (val !== '' && cleaned !== '' && !isNaN(cleaned) && cleaned !== '.') {
+          obj[h] = parseFloat(cleaned);
         } else {
           obj[h] = val === '' ? null : val;
         }
