@@ -2339,7 +2339,9 @@ function renderCafes() {
       </div>`;
 
     // ── HISTOIRE ──
-    const story = CAFE_STORIES[cafe['Nom du café']] || '';
+     const story =
+        (cafe['def plantations'] || '').trim()
+        || (CAFE_STORIES[cafe['Nom du café']] || '');
     const storyHtml = story ? `
       <div class="card-story-toggle" onclick="toggleStory(this)" aria-expanded="false">
         <span class="story-toggle-label">En savoir plus sur la plantation</span>
